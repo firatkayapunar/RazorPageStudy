@@ -1,0 +1,269 @@
+﻿@page
+@model RazorPageStudyFirstStep.Pages.EditDeleteMember
+@{ ViewData["Title"] = "Home page"; }
+
+<h1>Edit / Delete Member</h1>
+
+<hr />
+
+<div class="row">
+    <div class="col-4">
+        <form method="post" asp-page-handler="Save">
+            <div class="form-group">
+                <label asp-for="Name">Name</label>
+                <input asp-for="Name" type="email" class="form-control" placeholder="John" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Surname">Surname</label>
+                <input asp-for="Surname" type="email" class="form-control" placeholder="Doe" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Age">Age</label>
+                <input asp-for="Age" type="email" class="form-control" placeholder="45" />
+            </div>
+            <div class="form-group">
+                @*
+                    asp-for seçileni vereceğin property
+                    asp-items ise içini dolduracağın property
+                *@
+                <label asp-for="MemberType">Member Type</label>
+                <select class="form-control" asp-items="@(new SelectList(Model.MemberTypes))" asp-for="MemberType">
+                    <option value="">Seçiniz</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+            <div>
+                @Model.Result;
+            </div>
+        </form>
+        <form method="post" asp-page-handler="Remove">
+            <button type="submit" class="btn btn-danger">
+                Delete
+            </button>
+        </form>
+    </div>
+</div>
+
+@*Aşağıda buton bazında da yapabiliriz.*@
+
+<div class="row">
+    <div class="col-4">
+
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="Name">Name</label>
+                <input asp-for="Name" type="email" class="form-control" placeholder="John" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Surname">Surname</label>
+                <input asp-for="Surname" type="email" class="form-control" placeholder="Doe" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Age">Age</label>
+                <input asp-for="Age" type="email" class="form-control" placeholder="45" />
+            </div>
+            <div class="form-group">
+                @*
+                    asp-for seçileni vereceğin property
+                    asp-items ise içini dolduracağın property
+                *@
+                <label asp-for="MemberType">Member Type</label>
+                <select class="form-control" asp-items="@(new SelectList(Model.MemberTypes))" asp-for="MemberType">
+                    <option value="">Seçiniz</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary" asp-page-handler="Save">
+                Save
+            </button>
+            <button type="submit" class="btn btn-danger" asp-page-handler="Remove">
+                Delete
+            </button>
+            <div>
+                @Model.Result;
+            </div>
+        </form>
+
+    </div>
+</div>
+
+@*Benzer işlemi MVC uygulamasında aşağıdaki gibi yapabiliriz.*@
+
+@*
+     public class MemberController : Controller
+     {
+            [HttpGet]
+            public ActionResult Get(int id)
+            {
+                var member = GetMemberById(id); // Veritabanından üyeyi getir
+                return View(member);
+            }
+
+            [HttpPost]
+            public ActionResult Save(Member member)
+            {
+                if (ModelState.IsValid)
+                {
+                    SaveMember(member); // Üyeyi kaydet
+                    ViewBag.Result = "Member saved successfully.";
+                }
+                else
+                {
+                    ViewBag.Result = "There was a problem saving the member.";
+                }
+                return View("Edit", member);
+            }
+
+            [HttpPost]
+            public ActionResult Remove(int id)
+            {
+                DeleteMember(id); // Üyeyi sil
+                ViewBag.Result = "Member deleted successfully.";
+                return RedirectToAction("Index"); // Üye listesine yönlendir
+            }
+     }
+
+     View (Edit.cshtml):
+
+     @model YourNamespace.Models.Member
+
+     @{ ViewData["Title"] = "Edit Member"; }
+
+     <h1>Edit / Delete Member</h1>
+
+     <hr />
+
+     <div class="row">
+
+         <div class="col-4">
+
+         @using (Html.BeginForm("Save", "Member", FormMethod.Post))
+         {
+
+             <div class="form-group">
+
+             @Html.LabelFor(m => m.Name)
+             @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "John" })
+
+             </div>
+
+             <div class="form-group">
+
+             @Html.LabelFor(m => m.Surname)
+             @Html.TextBoxFor(m => m.Surname, new { @class = "form-control", placeholder = "Doe" })
+
+             </div>
+
+             <div class="form-group">
+
+             @Html.LabelFor(m => m.Age)
+             @Html.TextBoxFor(m => m.Age, new { @class = "form-control", placeholder = "45" })
+
+             </div>
+
+             <div class="form-group">
+
+             @Html.LabelFor(m => m.MemberType)
+             @Html.DropDownListFor(m => m.MemberType, new SelectList(Model.MemberTypes), "Seçiniz", new { @class="formcontrol" })
+
+             </div>
+
+             <button type="submit" class="btn btn-primary">Save</button>
+
+             <div>
+
+             @ViewBag.Result
+
+             </div>
+         }
+
+         @using (Html.BeginForm("Remove", "Member", FormMethod.Post, new { id = Model.Id }))
+         {
+             <button type="submit" class="btn btn-danger">Delete</button>
+         }
+
+     </div>
+
+     </div>
+
+    ********************************
+    Bu işlemi ayrı form yerine buton bazında da yapabiliriz.
+    ********************************
+
+
+    public class MemberController : Controller
+    {
+        [HttpGet]
+        public ActionResult Get(int id)
+        {
+            var member = GetMemberById(id); // Veritabanından üyeyi getir
+            return View(member);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(Member member, string action)
+        {
+            switch (action)
+            {
+                case "Save":
+                    if (ModelState.IsValid)
+                    {
+                        SaveMember(member); // Üyeyi kaydet
+                        ViewBag.Result = "Member saved successfully.";
+                    }
+                    else
+                    {
+                        ViewBag.Result = "There was a problem saving the member.";
+                    }
+                    break;
+                case "Delete":
+                    DeleteMember(member.Id); // Üyeyi sil
+                    ViewBag.Result = "Member deleted successfully.";
+                    return RedirectToAction("Index"); // Üye listesine yönlendir
+            }
+
+            return View(member);
+        }
+    }
+
+    View (Edit.cshtml):
+
+    @model YourNamespace.Models.Member
+
+    @{
+        ViewData["Title"] = "Edit Member";
+    }
+
+    <h1>Edit / Delete Member</h1>
+
+    <hr />
+
+    <div class="row">
+        <div class="col-4">
+            @using (Html.BeginForm("Edit", "Member", FormMethod.Post))
+            {
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Name)
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "John" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Surname)
+                    @Html.TextBoxFor(m => m.Surname, new { @class = "form-control", placeholder = "Doe" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Age)
+                    @Html.TextBoxFor(m => m.Age, new { @class = "form-control", placeholder = "45" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.MemberType)
+                    @Html.DropDownListFor(m => m.MemberType, new SelectList(Model.MemberTypes), "Seçiniz", new { @class = "formcontrol" })
+                </div>
+                <button type="submit" name="action" value="Save" class="btn btn-primary">Save</button>
+                <button type="submit" name="action" value="Delete" class="btn btn-danger">Delete</button>
+                <div>
+                    @ViewBag.Result
+                </div>
+            }
+        </div>
+    </div>
+
+*@

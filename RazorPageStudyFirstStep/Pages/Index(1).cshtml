@@ -1,0 +1,85 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+@*
+
+    📌ASP.NET Core'un Altındaki Programlama Modelleri
+
+    Razor Pages: Sayfa tabanlı programlama modeli.
+    MVC (Model-View-Controller): Geleneksel model-view-controller desenine dayalı uygulama geliştirme modeli.
+    API: RESTful servisler ve veri sunumu için kullanılan programlama modeli.
+
+    📌ASP.NET Core, modern web uygulamaları geliştirmek için iki güçlü yaklaşım sunar: Razor Pages ve MVC (Model-View-Controller). Razor Pages, sayfa tabanlı bir geliştirme modelidir ve daha basit bir yapıya sahipken, MVC daha modüler ve karmaşık yapılar için uygundur.
+
+    💡Razor Pages Nedir?
+    ASP.NET Core Razor Pages, page-based bir framework'tür ve özellikle küçük ve orta ölçekli projeler için uygundur. Razor Pages, her sayfanın kendi .cshtml dosyasına ve ona bağlı bir PageModel sınıfına sahip olmasını sağlar, bu da kod organizasyonunu ve yönetimini kolaylaştırır.
+
+    ✨Temel Özellikler
+
+    🔦Sayfa Tabanlı Yapı:
+    Her Razor Page, .cshtml uzantılı bir Razor sayfası ve onunla ilişkili bir sayfa modeli (.cshtml.cs) içerir. Bu sayfa modeli, sayfanın iş mantığını içerir.
+
+    🔦Yerleşik Sayfa Yönlendirme:
+    Razor Pages, varsayılan olarak URL yönlendirmesini sayfa adlarına göre otomatik olarak yapar. Örneğin, Pages/Index.cshtml dosyası, "/" URL'sine yönlendirilir.
+
+    🔦Veri Bağlama:
+    Razor Pages, model binding (veri bağlama) ve validation (doğrulama) özelliklerini destekler. Form verilerini kolayca işleyebilir ve doğrulayabilirsiniz.
+
+    🔦Sayfa Tabanlı İşleyiciler:
+    Get, Post, Put, Delete gibi HTTP isteklerini işlemek için OnGet, OnPost, vb. işleyici yöntemleri kullanılır.
+
+    ✨Bileşenler
+
+    🔦Razor Sayfası (.cshtml):
+    HTML ile birlikte C# kodunun kullanılabildiği dosyalar. Bu dosyalar, HTML içeriklerini ve Razor ifadelerini içerir.
+
+    🔦Sayfa Modeli (.cshtml.cs):
+    Razor sayfasıyla ilişkili C# sınıfıdır. Bu sınıf, sayfanın iş mantığını, veri bağlamayı ve işleyicileri içerir.
+
+    🔦Razor Syntax:
+    C# kodunu HTML ile birlikte kullanmanızı sağlayan bir syntax. Örneğin, "@"Model..Property veya "@"{ /* C# kodu */ }.
+
+    💡MVC Nedir?
+    ASP.NET Core MVC, Model-View-Controller design patternini kullanan bir framework'tür. MVC, uygulama mantığını (controller), kullanıcı arayüzünü (view) ve veri yönetimini (model) birbirinden ayıran bir tasarım desenidir. Bu, kodun daha temiz ve sürdürülebilir olmasını sağlar.
+
+    💡Razor Pages ve MVC Arasındaki Farklar
+
+    ✨Kod Organizasyonu ve Yapısı:
+    🔦Razor Pages: Sayfa tabanlı bir yapı kullanır. Her sayfa, kendi .cshtml dosyasına ve ona bağlı bir PageModel (.cshtml.cs) dosyasına sahiptir.
+    🔦MVC: Model-View-Controller (MVC) tasarım desenini kullanır. Controller, View ve Model dosyaları ayrı klasörlerde organize edilir.
+
+    ✨Yönlendirme (Routing):
+    🔦Razor Pages: URL'ler doğrudan sayfalara yönlendirilir, daha basit ve doğrudan bir yönlendirme yapısına sahiptir.
+    🔦MVC: URL'ler controller'lara ve metotlara yönlendirilir, daha esnek ve karmaşık yönlendirme kuralları oluşturulabilir.
+
+    ✨Uygulama İhtiyaçları ve Senaryoları:
+    🔦Razor Pages: Küçük ve orta ölçekli projeler, basit CRUD işlemleri ve sayfa tabanlı uygulamalar için uygundur.
+    🔦MVC: Büyük ve karmaşık projeler, detaylı iş mantığı ve daha karmaşık yönlendirme ihtiyaçları için uygundur.
+
+*@
+
+
+@*
+    Bir istek geldiğinde @page  yönergesi şu işlemleri gerçekleştirir:
+
+    Web sunucusu, gelen HTTP isteklerini alır ve middleware pipeline üzerinden geçirir. Routing middleware, istek URL'sini analiz eder ve uygun Razor Page veya MVC Controller'a yönlendirir.
+
+    Routing: @page  yönergesi, sayfanın belirli bir URL ile eşleşmesini sağlar. Bu, ASP.NET Core'un routing mekanizmasının bir parçasıdır. İstek yapıldığında URL, @page  yönergesi ile tanımlanan sayfaya yönlendirilir.
+
+    PageModel Binding: İstek URL'si, ilgili Razor Page ve onun PageModel sınıfı ile eşleştirilir. Sayfa, ilgili PageModel örneği ile ilişkilendirilir.
+
+    HTTP Method Handling: İstek türüne (GET, POST, PUT, DELETE) göre PageModel sınıfında tanımlı uygun yöntem (örneğin, OnGet, OnPost) çağrılır. Bu yöntem, isteği işler ve gerekli verileri hazırlar.
+
+    Razor Page Execution: Yöntem tamamlandıktan sonra, Razor sayfası (CSHTML dosyası) render edilir. Sayfa, PageModel sınıfında hazırlanan verileri kullanarak HTML çıktısını oluşturur.
+
+    Response Generation: Oluşturulan HTML çıktısı istemciye gönderilir.
+*@
+
